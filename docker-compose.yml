@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+   image: nginx:latest
+   ports:
+    - "8082:80"
+   volumes:
+     - ./:/app
+     - ./docker/nginx/site.conf:/etc/nginx/conf.d/site.conf
+   links:
+    - php
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/images/Dockerfile-php
+    volumes:
+    - ./:/app
+  varnish:
+    image: plopix/docker-varnish5
+    ports:
+      - "8080:80"
+    volumes:
+      - ./docker/varnish/default.vcl:/etc/varnish/default.vcl
+    environment:
+      CACHE_SIZE: 256M
+

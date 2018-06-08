@@ -1,0 +1,8 @@
+FROM php:7.2.4-fpm
+
+RUN apt-get update && \
+    apt-get install --no-install-recommends --assume-yes --quiet ca-certificates curl git zlib1g-dev && \
+    docker-php-ext-install zip && \
+    rm -rf /var/lib/apt/lists/*
+RUN echo 'memory_limit=-1' >> /usr/local/etc/php/php.ini && \
+    echo 'date.timezone = "Europe/Warsaw"' >> /usr/local/etc/php/php.ini
